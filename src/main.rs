@@ -47,7 +47,9 @@ fn run(mut handle: libusb::DeviceHandle) -> Result<(), libusb::Error> {
         let len = try!(handle.read_bulk(0x81, &mut read_buf, Duration::from_secs(10)));
         let rx = &read_buf[0..len];
 
-        if rx == &[0x13, 0x0c, 0x00, 0x00,  0x00, 0x00, 0x72, 0xce, 0x7e] {
+	// for b in rx { print!("0x{:02x}, ", b); }
+        let rx = &read_buf[0..9];
+	if rx == &[ 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03 ] {
             break;
         } else {
             thread::sleep(Duration::from_millis(100));
